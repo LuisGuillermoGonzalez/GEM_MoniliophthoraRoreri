@@ -1,0 +1,33 @@
+REMARK  2 active torsions:
+REMARK  status: ('A' for Active; 'I' for Inactive)
+REMARK    1  A    between atoms: O_1  and  C_12 
+REMARK    2  A    between atoms: C_11  and  C_16 
+ROOT
+HETATM    1  O   UNK     0      -0.865   2.311   0.189  0.00  0.00    -0.267 OA
+HETATM    2  N   UNK     0       1.175   1.218   0.076  0.00  0.00    -0.312 N 
+HETATM    3  C   UNK     0       1.899  -0.009   0.039  0.00  0.00     0.056 A 
+HETATM    4  C   UNK     0       1.927   2.470   0.191  0.00  0.00     0.133 C 
+HETATM    5  C   UNK     0       3.282   2.416  -0.493  0.00  0.00     0.025 C 
+HETATM    6  C   UNK     0       4.099   1.270   0.080  0.00  0.00     0.042 C 
+HETATM    7  C   UNK     0       3.311  -0.013   0.041  0.00  0.00    -0.030 A 
+HETATM    8  C   UNK     0       1.195  -1.223   0.000  0.00  0.00     0.026 A 
+HETATM    9  C   UNK     0      -0.218   1.265   0.102  0.00  0.00     0.262 A 
+HETATM   10  C   UNK     0      -0.953  -0.041   0.019  0.00  0.00     0.076 A 
+HETATM   11  C   UNK     0      -0.275  -1.204  -0.026  0.00  0.00     0.094 A 
+HETATM   12  C   UNK     0       4.003  -1.230   0.040  0.00  0.00     0.009 A 
+HETATM   13  C   UNK     0       1.914  -2.430  -0.016  0.00  0.00     0.016 A 
+HETATM   14  C   UNK     0       3.308  -2.433   0.009  0.00  0.00     0.002 A 
+ENDROOT
+BRANCH  10  15
+HETATM   15  C   UNK     0      -2.428  -0.013  -0.004  0.00  0.00    -0.018 A 
+HETATM   16  C   UNK     0      -3.145  -0.058   1.192  0.00  0.00     0.012 A 
+HETATM   17  C   UNK     0      -4.539  -0.032   1.171  0.00  0.00     0.001 A 
+HETATM   18  C   UNK     0      -5.216   0.040  -0.047  0.00  0.00     0.000 A 
+HETATM   19  C   UNK     0      -4.499   0.085  -1.242  0.00  0.00     0.001 A 
+HETATM   20  C   UNK     0      -3.105   0.058  -1.221  0.00  0.00     0.012 A 
+ENDBRANCH  10  15
+BRANCH  11  21
+HETATM   21  O   UNK     0      -0.872  -2.448  -0.101  0.00  0.00    -0.359 OA
+HETATM   22  H   UNK     0      -1.838  -2.345  -0.114  0.00  0.00     0.218 HD
+ENDBRANCH  11  21
+TORSDOF 2

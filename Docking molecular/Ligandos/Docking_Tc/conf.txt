@@ -1,0 +1,28 @@
+receptor= tc.pdbqt
+ligand= 2_Cyano_N_cyclohexyl_2__3_piperidin_1_ylquinoxalin_2_yl_acetamide.pdbqt
+
+ 
+
+center_x= 57.319
+
+center_y= 73.81
+
+center_z= 65.061
+
+ 
+
+size_x= 40
+
+size_y= 58
+
+size_z= 40
+
+ 
+
+out= Dock_2_Cyano_N_cyclohexyl_2__3_piperidin_1_ylquinoxalin_2_yl_acetamide.pdbqt
+
+log= SO.txt
+
+ 
+
+exhaustiveness= 50

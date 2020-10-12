@@ -1,0 +1,4 @@
+mrr
+spacing    0.375
+npts       36 56 46
+center    60.223 74.606 65.061

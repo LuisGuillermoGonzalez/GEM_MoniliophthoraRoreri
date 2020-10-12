@@ -1,0 +1,28 @@
+receptor= th.pdbqt
+ligand= Ethyl_3__4_6_dimethyl_3_oxo_2_phenylpyrazolo_3_4_b_pyridin_1_yl_propanoate.pdbqt
+
+ 
+
+center_x= 65.905 
+
+center_y= 74.135 
+
+center_z= 65.218
+
+ 
+
+size_x= 84 
+
+size_y= 58 
+
+size_z= 96
+
+ 
+
+out= Dock_Ethyl_3__4_6_dimethyl_3_oxo_2_phenylpyrazolo_3_4_b_pyridin_1_yl_propanoate.pdbqt
+
+log= SO3.txt
+
+ 
+
+exhaustiveness= 50

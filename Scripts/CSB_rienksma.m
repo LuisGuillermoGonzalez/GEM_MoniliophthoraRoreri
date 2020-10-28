@@ -59,21 +59,21 @@ levels_CATIE_1000 = gene_to_reaction_levels(model_CATIE_1000, gene_id_CATIE_1000
 levels_CATIE_1000 (isnan(levels_CATIE_1000 )) = 1; % **** Reactions that received no counts using this method were not allowed to carry any flux
 levels_CATIE_1000  = levels_CATIE_1000  / max(levels_CATIE_1000); % **** Rxn Levels Normalization
 
-% CATIE_R4 infecting human spleen macrophages (hSMs)
+% CATIE_R4 infecting cacao fruit
 model_CATIE_R4 = model;
 levels_CATIE_R4 = gene_to_reaction_levels(model_CATIE_R4, gene_id_CATIE_R4,...
                             expression_values_CATIE_R4, @min, @(x,y)(x+y));
 levels_CATIE_R4 (isnan(levels_CATIE_R4 )) = 1; %  Reactions that received no counts using this method were not allowed to carry any flux  
 levels_CATIE_R4  = levels_CATIE_R4  / max(levels_CATIE_R4); % Rxn Levels Normalization
 
-% CATIE_R7 infecting human spleen macrophages (hSMs)
+% CATIE_R7 infecting cacao fruit
 model_CATIE_R7 = model;
 levels_CATIE_R7 = gene_to_reaction_levels(model_CATIE_R7, gene_id_CATIE_R7,...
                             expression_values_CATIE_R7, @min, @(x,y)(x+y));
 levels_CATIE_R7 (isnan(levels_CATIE_R7 )) = 1; %  Reactions that received no counts using this method were not allowed to carry any flux  
 levels_CATIE_R7  = levels_CATIE_R7  / max(levels_CATIE_R7); % Rxn Levels Normalization
 
-% POUND_7 infecting human spleen macrophages (hSMs)
+% POUND_7 infecting cacao fruit
 model_POUND_7 = model;
 levels_POUND_7 = gene_to_reaction_levels(model_POUND_7, gene_id_POUND_7,...
                             expression_values_POUND_7, @min, @(x,y)(x+y));
@@ -117,7 +117,7 @@ Na_metabolites(1) = [];
 
 %% Add sink reaction of biomass precursors and maximizing flux
  
-%% UT127 Infecting hSMs
+%% infecting cacao fruit
 Flux_BMPs_CATIE_1000 = zeros(length(ListBMPs),1);
 origStatus_CATIE_1000 = cell(length(ListBMPs),1);
 
@@ -139,36 +139,36 @@ Table_CATIE_1000 = table(ListBMPs,Na_metabolites,Flux_BMPs_CATIE_1000,origStatus
 filename = 'results/CSB_CATIE_1000.xlsx';
 writetable(Table_CATIE_1000,filename,'Sheet',1);
 
-%% inserting Context-Specific Biomass Reaction of UT127
-CSI_coefficients_sMtb = zeros(length(model.mets),1); % Context-Specific-Infection Biomass
+%% inserting Context-Specific Biomass Reaction 
+CSI_coefficients = zeros(length(model.mets),1); % Context-Specific-Infection Biomass
 % Add stoichiometric coefficient
 for k = 1:length(ListBMPs)
     
-    MetID_sMtb = findMetIDs(model_CATIE_1000,ListBMPs(k)); % Metabolite IDs sMtb model
-    CSI_coefficients_sMtb(MetID_sMtb) = -BM_coeff_CATIE_1000(k);
+    MetID = findMetIDs(model_CATIE_1000,ListBMPs(k)); % Metabolite IDs sMtb model
+    CSI_coefficients(MetID) = -BM_coeff_CATIE_1000(k);
 	
 end
 
 % ATP, ADP and PI coefficients in sMtb2.0
-CSI_coefficients_sMtb(findMetIDs(model_CATIE_1000,'s_0434')) = -186.2; % ATP coefficient
-CSI_coefficients_sMtb(findMetIDs(model_CATIE_1000,'s_0394')) = 186.2; % ADP coefficient
-CSI_coefficients_sMtb(findMetIDs(model_CATIE_1000,'s_1322')) = 186.2; % PI coefficient
-CSI_coefficients_sMtb(findMetIDs(model_CATIE_1000,'s_0803')) = -186.2; % H2O coefficient
+CSI_coefficients(findMetIDs(model_CATIE_1000,'s_0434')) = -186.2; % ATP coefficient
+CSI_coefficients(findMetIDs(model_CATIE_1000,'s_0394')) = 186.2; % ADP coefficient
+CSI_coefficients(findMetIDs(model_CATIE_1000,'s_1322')) = 186.2; % PI coefficient
+CSI_coefficients(findMetIDs(model_CATIE_1000,'s_0803')) = -186.2; % H2O coefficient
 
 % Creating Context-Specific Biomass Reaction
 model_CSB_infection_CATIE_1000 = addReaction(model, 'CSB_infection_CATIE_1000', 'metaboliteList', model.mets ,...
-'stoichCoeffList', CSI_coefficients_sMtb); % sMtb insertion of Context-Specific biomass reaction
+'stoichCoeffList', CSI_coefficients); % insertion of Context-Specific biomass reaction
 
 
 %% Solving Optimization CATIE_1000
 model_CSB_infection_CATIE_1000  = changeObjective(model_CSB_infection_CATIE_1000 , 'CSB_infection_CATIE_1000');
-sol_sMtb_CATIE_1000 = optimizeCbModel(model_CSB_infection_CATIE_1000,'max');
+sol_CATIE_1000 = optimizeCbModel(model_CSB_infection_CATIE_1000,'max');
  
 
 %% Producing Biomass Precursors of CATIE_R4
 % Add sink reaction of biomass precursors and maximize flux
 
-% CATIE_R4 Infecting hSMs
+% CATIE_R4 infecting cacao fruit
 Flux_BMPs_CATIE_R4 = zeros(length(ListBMPs),1);
 origStatus_CATIE_R4 = cell(length(ListBMPs),1);
 
@@ -191,32 +191,32 @@ filename = 'results/CSB_CATIE_R4.xlsx';
 writetable(Table_CATIE_R4,filename,'Sheet',1)
 
 %% inserting Context-Specific Biomass Reaction of CATIE_R4
-CSI_coefficients_sMtb = zeros(length(model.mets),1);
+CSI_coefficients = zeros(length(model.mets),1);
 
 % Add stoichiometric coefficient
 for k = 1:length(ListBMPs)
     
-    MetID = findMetIDs(model_CATIE_R4,ListBMPs(k)); % Metabolite IDs sMtb2.0 model
-    CSI_coefficients_sMtb(MetID) = -BM_coeff_CATIE_R4(k);
+    MetID = findMetIDs(model_CATIE_R4,ListBMPs(k)); % Metabolite IDs 
+    CSI_coefficients(MetID) = -BM_coeff_CATIE_R4(k);
     
 end 
 % ATP, ADP, H2O and PI coefficients
-CSI_coefficients_sMtb(findMetIDs(model_CATIE_R4,'s_0434')) = -186.2; % ATP coefficient
-CSI_coefficients_sMtb(findMetIDs(model_CATIE_R4,'s_0394')) = 186.2; % ADP coefficient
-CSI_coefficients_sMtb(findMetIDs(model_CATIE_R4,'s_1322')) = 186.2; % PI coefficient
-CSI_coefficients_sMtb(findMetIDs(model_CATIE_R4,'s_0803')) = -186.2; % H2O coefficient
+CSI_coefficients(findMetIDs(model_CATIE_R4,'s_0434')) = -186.2; % ATP coefficient
+CSI_coefficients(findMetIDs(model_CATIE_R4,'s_0394')) = 186.2; % ADP coefficient
+CSI_coefficients(findMetIDs(model_CATIE_R4,'s_1322')) = 186.2; % PI coefficient
+CSI_coefficients(findMetIDs(model_CATIE_R4,'s_0803')) = -186.2; % H2O coefficient
 % Creating Context-Specific Biomass Reaction
 model_CSB_infection_CATIE_R4 = addReaction(model, 'CSB_infection_CATIE_R4', 'metaboliteList', model.mets ,...
-'stoichCoeffList', CSI_coefficients_sMtb); % Biomass reaction inclusion
+'stoichCoeffList', CSI_coefficients); % Biomass reaction inclusion
 
 %% Solving Optimization CATIE_R4
 model_CSB_infection_CATIE_R4  = changeObjective(model_CSB_infection_CATIE_R4 , 'CSB_infection_CATIE_R4');
-sol_sMtb_CATIE_R4 = optimizeCbModel(model_CSB_infection_CATIE_R4,'max');
+sol_CATIE_R4 = optimizeCbModel(model_CSB_infection_CATIE_R4,'max');
 
 %% Producing Biomass Precursors of CATIE_R7
 % Add sink reaction of biomass precursors and maximize flux
 
-% CATIE_R7 Infecting hSMs
+% CATIE_R7 infecting cacao fruit
 Flux_BMPs_CATIE_R7 = zeros(length(ListBMPs),1);
 origStatus_CATIE_R7 = cell(length(ListBMPs),1);
 
@@ -239,32 +239,32 @@ filename = 'results/CSB_CATIE_R7.xlsx';
 writetable(Table_CATIE_R7,filename,'Sheet',1)
 
 %% inserting Context-Specific Biomass Reaction of CATIE_R7
-CSI_coefficients_sMtb = zeros(length(model.mets),1);
+CSI_coefficients = zeros(length(model.mets),1);
 
 % Add stoichiometric coefficient
 for k = 1:length(ListBMPs)
     
-    MetID = findMetIDs(model_CATIE_R7,ListBMPs(k)); % Metabolite IDs sMtb2.0 model
-    CSI_coefficients_sMtb(MetID) = -BM_coeff_CATIE_R7(k);
+    MetID = findMetIDs(model_CATIE_R7,ListBMPs(k)); % Metabolite IDs 
+    CSI_coefficients(MetID) = -BM_coeff_CATIE_R7(k);
     
 end 
 % ATP, ADP, H2O and PI coefficients
-CSI_coefficients_sMtb(findMetIDs(model_CATIE_R7,'s_0434')) = -186.2; % ATP coefficient
-CSI_coefficients_sMtb(findMetIDs(model_CATIE_R7,'s_0394')) = 186.2; % ADP coefficient
-CSI_coefficients_sMtb(findMetIDs(model_CATIE_R7,'s_1322')) = 186.2; % PI coefficient
-CSI_coefficients_sMtb(findMetIDs(model_CATIE_R7,'s_0803')) = -186.2; % H2O coefficient
+CSI_coefficients(findMetIDs(model_CATIE_R7,'s_0434')) = -186.2; % ATP coefficient
+CSI_coefficients(findMetIDs(model_CATIE_R7,'s_0394')) = 186.2; % ADP coefficient
+CSI_coefficients(findMetIDs(model_CATIE_R7,'s_1322')) = 186.2; % PI coefficient
+CSI_coefficients(findMetIDs(model_CATIE_R7,'s_0803')) = -186.2; % H2O coefficient
 % Creating Context-Specific Biomass Reaction
 model_CSB_infection_CATIE_R7 = addReaction(model, 'CSB_infection_CATIE_R7', 'metaboliteList', model.mets ,...
-'stoichCoeffList', CSI_coefficients_sMtb); % Biomass reaction inclusion
+'stoichCoeffList', CSI_coefficients); % Biomass reaction inclusion
 
 %% Solving Optimization CATIE_R7
 model_CSB_infection_CATIE_R7  = changeObjective(model_CSB_infection_CATIE_R7 , 'CSB_infection_CATIE_R7');
-sol_sMtb_CATIE_R7 = optimizeCbModel(model_CSB_infection_CATIE_R7,'max');
+sol_CATIE_R7 = optimizeCbModel(model_CSB_infection_CATIE_R7,'max');
 
 %% Producing Biomass Precursors of POUND_7
 % Add sink reaction of biomass precursors and maximize flux
 
-% POUND_7 Infecting hSMs
+% POUND_7 infecting cacao fruit
 Flux_BMPs_POUND_7 = zeros(length(ListBMPs),1);
 origStatus_POUND_7 = cell(length(ListBMPs),1);
 
@@ -287,27 +287,27 @@ filename = 'results/CSB_POUND_7.xlsx';
 writetable(Table_POUND_7,filename,'Sheet',1)
 
 %% inserting Context-Specific Biomass Reaction of POUND_7
-CSI_coefficients_sMtb = zeros(length(model.mets),1);
+CSI_coefficients = zeros(length(model.mets),1);
 
 % Add stoichiometric coefficient
 for k = 1:length(ListBMPs)
     
-    MetID = findMetIDs(model_POUND_7,ListBMPs(k)); % Metabolite IDs sMtb2.0 model
-    CSI_coefficients_sMtb(MetID) = -BM_coeff_POUND_7(k);
+    MetID = findMetIDs(model_POUND_7,ListBMPs(k)); % Metabolite IDs 
+    CSI_coefficients(MetID) = -BM_coeff_POUND_7(k);
     
 end 
 % ATP, ADP, H2O and PI coefficients
-CSI_coefficients_sMtb(findMetIDs(model_POUND_7,'s_0434')) = -186.2; % ATP coefficient
-CSI_coefficients_sMtb(findMetIDs(model_POUND_7,'s_0394')) = 186.2; % ADP coefficient
-CSI_coefficients_sMtb(findMetIDs(model_POUND_7,'s_1322')) = 186.2; % PI coefficient
-CSI_coefficients_sMtb(findMetIDs(model_POUND_7,'s_0803')) = -186.2; % H2O coefficient
+CSI_coefficients(findMetIDs(model_POUND_7,'s_0434')) = -186.2; % ATP coefficient
+CSI_coefficients(findMetIDs(model_POUND_7,'s_0394')) = 186.2; % ADP coefficient
+CSI_coefficients(findMetIDs(model_POUND_7,'s_1322')) = 186.2; % PI coefficient
+CSI_coefficients(findMetIDs(model_POUND_7,'s_0803')) = -186.2; % H2O coefficient
 % Creating Context-Specific Biomass Reaction
 model_CSB_infection_POUND_7 = addReaction(model, 'CSB_infection_POUND_7', 'metaboliteList', model.mets ,...
-'stoichCoeffList', CSI_coefficients_sMtb); % Biomass reaction inclusion
+'stoichCoeffList', CSI_coefficients); % Biomass reaction inclusion
 
 %% Solving Optimization POUND_7
 model_CSB_infection_POUND_7  = changeObjective(model_CSB_infection_POUND_7 , 'CSB_infection_POUND_7');
-sol_sMtb_POUND_7 = optimizeCbModel(model_CSB_infection_POUND_7,'max');
+sol_POUND_7 = optimizeCbModel(model_CSB_infection_POUND_7,'max');
 %% Saving Models with CSB reaction
 dispstr = sprintf('%5.1f second: Saving Models with Constraint-Specific Biomass Reaction...',cputime-time0);
 disp(dispstr)  
@@ -327,7 +327,7 @@ save('results/model_CSB_infection_POUND_7.mat'); % saving model with context-spe
 
 %% Global results
 disp('Context-Specific Biomass Reaction Flux')
-fprintf('CATIE 1000 CSB flux: %.4f/h.\n', sol_sMtb_CATIE_1000.f);
-fprintf('CATIE R4 CSB flux: %.4f/h.\n', sol_sMtb_CATIE_R4.f);
-fprintf('CATIE R7 CSB flux: %.4f/h.\n', sol_sMtb_CATIE_R7.f);
-fprintf('POUND 7 CSB flux: %.4f/h.\n', sol_sMtb_POUND_7.f);
+fprintf('CATIE 1000 CSB flux: %.4f/h.\n', sol_CATIE_1000.f);
+fprintf('CATIE R4 CSB flux: %.4f/h.\n', sol_CATIE_R4.f);
+fprintf('CATIE R7 CSB flux: %.4f/h.\n', sol_CATIE_R7.f);
+fprintf('POUND 7 CSB flux: %.4f/h.\n', sol_POUND_7.f);
